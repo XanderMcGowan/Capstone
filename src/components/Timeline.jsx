@@ -1,11 +1,26 @@
+import React from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Tweet from './Tweet.jsx'
 import './Timeline.css'
 
-function Timeline({ tweets }) {
+const Timeline = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("/feed")
+      .then((res) => res.json())
+      
+      .then((data) => setData(data));
+  }, []);
+
+
+  console.log(data)
+
+
   return (
     <ul className="timeline">
-      {tweets.map(({ id, user, country, content }) => (
+      {data.map(({ id, user, country, content }) => (
         <li key={id} className="timeline-item">
           <Tweet user={user} country={country}>
             {content}
@@ -16,8 +31,8 @@ function Timeline({ tweets }) {
   )
 }
 
-Timeline.propTypes = {
-  tweets: PropTypes.array,
-}
+// Timeline.propTypes = {
+//   tweets: PropTypes.array,
+// }
 
 export default Timeline
