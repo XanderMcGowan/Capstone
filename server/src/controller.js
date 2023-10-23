@@ -14,19 +14,20 @@ let feed = function (req, res) {
 };
 
 let register = function (req, res) {
-  let title = req.body.title
-  let notes = req.body.notes
+  let username = req.body.username
+  let password = req.body.password
 
-  let sql = "insert into entries (title, notes) values (?,?)"
-  let params = [title, notes]
+  let sql = "insert into users (username, password) values (?,?)"
+  let params = [username, password]
 
 
   db.query(sql, params, function(err, results){
     if(err){
-      console.log("you can't even add a todo", err)
+      console.log("unable to register", err)
       send.sendStatus(500)
 
     } else {
+      console.log("unable to register", err)
       res.sendStatus(204)
     }
   })

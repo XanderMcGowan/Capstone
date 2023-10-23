@@ -3,33 +3,58 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Link } from 'react-router-dom'
-import TweetMachine from "./TweetMachine";
+
 
 import "./Register.css"
 
 const Register = () => {
-    const [visible, setVisible] = useState(true)
-    const [isToggled, setIsToggled] = useState(false);
- 
-    const removeElement = () => {
-     setVisible((prev) => !prev)
-     setIsToggled((prev) => !prev);
-   };
-    
-    return (
-        <div className="register">
-      {visible && (
-        <div className="form">
-           <TextField id="outlined-basic" label="Username" variant="outlined" />
-           <TextField id="outlined-basic" label="Password" variant="outlined" />
-           <TextField id="outlined-basic" label="Confirm Password" variant="outlined" />
-           <Button className="submit" onClick={removeElement} variant="contained">Submit</Button>
-           <Button className="submit"  variant="contained">
-           <Link to="/register">Register</Link>
+
+  const [inputs, setInputs] = useState({});
+  const [status, setStatus] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value }))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(inputs);
+  const options = {
+      method: 'POST',
+      body: inputs 
+  };
+  fetch( '/register', options )  
+
+
+  }
+
+  return (
+    <div>
+    <form onSubmit={handleSubmit} >
+      <label>Enter your username:
+      <input 
+        type="text" 
+        name="username" 
+        value={inputs.username} 
+        onChange={handleChange}
+      />
+      </label>
+      <label>Enter your password:
+        <input 
+          type="text" 
+          name="password" 
+          value={inputs.password} 
+          onChange={handleChange}
+        />
+      </label>
+      <Button style={{backgroundColor: '#F1DABF'}}  variant="contained" onClick={handleSubmit}>
+           <Link to="/tweetmachine">Register</Link>
            </Button>
-         </div>
-      )}
-      { isToggled && <TweetMachine />} 
+    </form>
+
     </div>
     )
 }

@@ -6,27 +6,46 @@ import { Link } from 'react-router-dom'
 import TweetMachine from "./TweetMachine";
 
 const Login = () => {
-    const [visible, setVisible] = useState(true)
-    const [isToggled, setIsToggled] = useState(false);
- 
-    const removeElement = () => {
-     setVisible((prev) => !prev)
-     setIsToggled((prev) => !prev);
-   };
-    
-    return (
-        <div className="register" >
-      {visible && (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-           <TextField id="outlined-basic" label="Username" variant="outlined" />
-           <TextField id="outlined-basic" label="Password" variant="outlined" />
-           <Button style={{backgroundColor: '#F1DABF'}} onClick={removeElement} variant="contained">Submit</Button>
-           <Button style={{backgroundColor: '#F1DABF'}}  variant="contained">
+  const [inputs, setInputs] = useState({});
+
+  const handleChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value }))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(inputs);
+  }
+
+  return (
+    <div>
+    <form onSubmit={handleSubmit}>
+      <label>Enter your username:
+      <input 
+        type="text" 
+        name="username" 
+        value={inputs.username} 
+        onChange={handleChange}
+      />
+      </label>
+      <label>Enter your password:
+        <input 
+          type="text" 
+          name="password" 
+          value={inputs.password} 
+          onChange={handleChange}
+        />
+      </label>
+      <Button style={{backgroundColor: '#F1DABF'}}  variant="contained" onClick={handleSubmit}>
+           <Link to="/tweetmachine">Submit</Link>
+           </Button>
+      <Button style={{backgroundColor: '#F1DABF'}}  variant="contained" >
            <Link to="/register">Register</Link>
            </Button>
-         </div>
-      )}
-      { isToggled && <TweetMachine />} 
+    </form>
+
     </div>
     )
 }
