@@ -6,7 +6,7 @@ let app = express()
 require("dotenv").config()
 
 
-app.use(express.json())
+app.use(express.json({ extended: false }));
 
 let routes = require("./src/routes")
 
